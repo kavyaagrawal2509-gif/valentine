@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anika 💖 Valentine</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    background: radial-gradient(circle at top, #ff5f6d, #ffc371);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    background:white;
+    padding:45px 55px;
+    border-radius:30px;
+    text-align:center;
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    position:relative;
+    z-index:2;
+}
+
+h1{
+    color:#ff2e63;
+    font-size:30px;
+    margin-bottom:25px;
+}
+
+button{
+    padding:14px 36px;
+    font-size:18px;
+    border-radius:40px;
+    border:none;
+    cursor:pointer;
+    margin:12px;
+}
+
+#yes{
+    background:#ff2e63;
+    color:white;
+    transition:0.3s;
+}
+
+#yes:hover{
+    transform:scale(1.15);
+}
+
+#no{
+    background:#ddd;
+    position:absolute;
+}
+
+.dog{
+    font-size:60px;
+    margin-top:15px;
+    transition:0.3s;
+}
+
+/* hearts */
+.heart{
+    position:fixed;
+    font-size:26px;
+    animation:float 5s linear infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-900px);opacity:0;}
+}
+
+/* stars */
+.star{
+    position:fixed;
+    width:8px;
+    height:8px;
+    background:gold;
+    border-radius:50%;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%{opacity:0;transform:scale(0.5);}
+    50%{opacity:1;transform:scale(1.6);}
+    100%{opacity:0;transform:scale(0.5);}
+}
+
+/* shake */
+@keyframes shake {
+    0% { transform: translate(0); }
+    25% { transform: translate(6px); }
+    50% { transform: translate(-6px); }
+    75% { transform: translate(6px); }
+    100% { transform: translate(0); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<div class="card" id="card">
+    <h1>Anika 💖<br>Will you be my Valentine?</h1>
+    <button id="yes">Yes 💕</button>
+    <button id="no">No 🙃</button>
+    <div class="dog" id="dog">🐶</div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const dog = document.getElementById("dog");
+const card = document.getElementById("card");
+const music = document.getElementById("music");
+
+let speed = 1;
+let musicStarted = false;
+
+noBtn.style.left = "65%";
+noBtn.style.top = "70%";
+
+function runAway(){
+    speed += 0.4;
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 120);
+    noBtn.style.transition = `${0.15/speed}s`;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    dog.innerHTML = "😜🐶";
+    card.style.animation = "shake 0.3s";
+    setTimeout(()=>card.style.animation="",300);
+
+    if(!musicStarted){
+        music.play();
+        musicStarted = true;
+    }
+}
+
+noBtn.addEventListener("mouseover", runAway);
+noBtn.addEventListener("touchstart", runAway);
+
+yesBtn.addEventListener("click", ()=>{
+    document.body.innerHTML = "<h1 style='color:white;font-size:44px;text-align:center;'>SHE SAID YES 💖💖💖<br>BEST DAY EVER 😍</h1>";
+
+    music.play();
+
+    // stars
+    for(let i=0;i<100;i++){
+        const s=document.createElement("div");
+        s.className="star";
+        s.style.left=Math.random()*window.innerWidth+"px";
+        s.style.top=Math.random()*window.innerHeight+"px";
+        s.style.animationDelay=Math.random()+"s";
+        document.body.appendChild(s);
+    }
+
+    // hearts rain
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💘";
+        h.style.left=Math.random()*window.innerWidth+"px";
+        h.style.bottom="0px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),5000);
+    },120);
+});
+</script>
+
+</body>
+</html>
